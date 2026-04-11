@@ -1,7 +1,6 @@
 # Esercizio 2
 #Modifico oggetto CSVFile in NumericalCSVFile
 
-#Esercizio 1
 class CSVFile:
     def __init__(self, filename):
         self.name = filename
@@ -22,24 +21,18 @@ class CSVFile:
 
 class NumericalCSVFile(CSVFile):
     def get_data(self):
-        dati_originari= super().get_data()
-        dati_numerici = []
+        lista = super().get_data()
+        lista_float = []
 
-        for riga in dati_originari:
-            try:
-                nuova_riga = [riga[0]]  # la data resta stringa
-
-                for valore in riga[1:]:
-                    nuova_riga.append(float(valore))
-
-                dati_numerici.append(nuova_riga)
-
+        for riga in lista:
+            try: 
+                valori = [riga[0]] + [float(x) for x in riga[1:]]
+                lista_float.append(valori)
             except ValueError:
-                print(f"Errore di conversione nella riga: {riga} -> valore non numerico")
-                continue
+                print("Questa riga contiene dati non numerici. La riga {} verrà ignorata.".format(riga))
 
-        return dati_numerici
-
+        return lista_float
+    
 file = NumericalCSVFile("shampoo_sales.csv")
 dati = file.get_data()
 
